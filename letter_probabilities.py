@@ -2,15 +2,16 @@
 import collections
 import string
 
-class LetterCounts(collections.defaultdict):
 
+class LetterCounts(object):
     def __init__(self, iterable):
-        collections.defaultdict.__init__(self, int)
         self.iterable = iterable
+        self.lengths = collections.defaultdict(int)
         self.pair_counter = collections.defaultdict(int)
         self.single_letter_sets = collections.defaultdict(list)
         self.single_letter_probability = collections.defaultdict(list)
         self.single_letter_ranges = collections.defaultdict(list)
+        self.chain_list = []
 
     def count_consecutive_letters(self):
         """ for each word, acquire the count of all consecutive letter 
@@ -19,6 +20,8 @@ class LetterCounts(collections.defaultdict):
         for word in self.iterable:
             split_word = list(word.lower())
             last_letter = None
+            # acquire lengths of all words
+            self.lengths[len(split_word)] += 1
             for letter in split_word:
                 if letter not in string.lowercase:
                     continue
@@ -40,7 +43,6 @@ class LetterCounts(collections.defaultdict):
             for pair in self.pair_counter:
                 if pair[0] == letter:
                     self.single_letter_sets[letter].append({pair: self.pair_counter[pair]})
-
   
     def generate_probabilities(self):
         """for each letter create a list of objects; the key is that letter and
@@ -64,6 +66,7 @@ class LetterCounts(collections.defaultdict):
                 last += current_value
             last = 0
 
+
 if __name__ == "__main__":
     words = open("/usr/share/dict/words", 'rb')
     letter_counts = LetterCounts(words)
@@ -73,4 +76,7 @@ if __name__ == "__main__":
     letter_counts.generate_ranges()
     for letter, next_letter_obj in letter_counts.single_letter_ranges.iteritems():
         print("letter:\n    %s\nnext letter probability range:\n    %s\n" % (letter, next_letter_obj))
+
+
+
     
