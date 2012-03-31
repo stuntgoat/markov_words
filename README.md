@@ -3,6 +3,7 @@
 Create new words and fool your friends!! Free!!
 
 Generate a quasi-random word given a first letter and a length.
+
      $ python word_generation.py e 7
      eaentit
      $ python word_generation.py l 6
