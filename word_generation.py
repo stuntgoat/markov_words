@@ -16,7 +16,6 @@ class MarkovChainObject(object):
     def __init__(self, current, chain):
         self.current = current
         self.chain = chain
-        
 
     def quasi_random_next(self):
         qr = random.random()
@@ -39,6 +38,8 @@ class GenerateQuasiRandomWord(object):
         self._index_chain_table()
 
     def _index_chain_table(self):
+        """create dictionary- the key is the seed letter and the
+        value is the MarkovChainObject associated with that letter"""
         for letter in string.lowercase:
             for chain in self.chains:
                 if chain.current == letter:
