@@ -29,7 +29,8 @@ class LetterCounts(object):
         return self.pair_counter
 
     def generate_probabilities(self):
-        """ for each lowercase letter, create a list of objects; the key is the next letter and the value is a tuple of a range between 0 and 1 ( actually .9999999999999 )"""
+        """ for each lowercase letter, create a list of objects; the key is the 
+        next letter and the value is a tuple of a range between 0 and 1 ( actually .9999999999999 )"""
         sums = {}
         key_sums = [sums.update({k:sum(v.values())}) for k,v in self.pair_counter.iteritems()]
         for k, v in self.pair_counter.iteritems():
@@ -37,6 +38,8 @@ class LetterCounts(object):
                 self.pair_probabilities[k][key] = float(value)/sums[k]
 
     def generate_ranges(self):
+        """Generate a dictionary of dictionaries containing tuples of incremental sums of probabilities 
+        ( ie a Markov Chain )"""
         for key, probabilities, in self.pair_probabilities.iteritems():
             last_value = 0
             for k, value in probabilities.iteritems():
@@ -49,28 +52,3 @@ if __name__ == "__main__":
     for letter, next_letter_obj in letter_counts.ranges.iteritems():
         print("letter:\n    %s\nnext letter probability range:\n    %s\n" % (letter, next_letter_obj))
 
-
-
-    
-    
-    # def create_single_letter_sets(self):
-    #     """ for each lowercase letter, create a list of objects, where the key is 
-    #     the letter pair and the value is the consecutive occurance in each
-    #     item in self.iterable"""
-
-    #     for pair in self.pair_counter:
-    #         if pair[0] == letter:
-    #             self.single_letter_sets[letter].append({pair: self.pair_counter[pair]})
-                
-    # def generate_probabilities(self):
-    #     """for each letter create a list of objects; the key is that letter and
-    #     value is a float of the probability of moving to that letter"""
-    #     total = 0
-    #     for letter, values in self.single_letter_sets.iteritems():
-    #         for obj in values:
-    #             total += obj.values()[0]
-    #         for obj in values:
-    #             key = obj.keys()[0]
-    #             self.single_letter_probability[letter].append({key[1]: (obj.values()[0]/float(total))})
-    #         total = 0
-        
