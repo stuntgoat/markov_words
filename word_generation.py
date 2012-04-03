@@ -19,12 +19,14 @@ class MarkovChainObject(object):
 
     def quasi_random_next(self):
         qr = random.random()
-        canditate = None
+        candidate = None
+
         for c in self.chain:
-            lower = c.values()[0][0]
-            upper = c.values()[0][1]
+
+            lower = self.chain[c][0]
+            upper = self.chain[c][1]
             if lower < qr < upper:
-                candidate = c.keys()[0]
+                candidate = c
         return candidate
 
 
@@ -59,15 +61,10 @@ if __name__ == '__main__':
     import sys
     words = open("/usr/share/dict/words", 'rb')
     letter_counts = LetterCounts(words)
-    letter_counts.count_consecutive_letters()
-    letter_counts.create_single_letter_sets()
-    letter_counts.generate_probabilities()
-    letter_counts.generate_ranges()
-
     chain_list = []
-
-    for candidate, next_candidate in letter_counts.single_letter_ranges.iteritems():
-         chain_list.append(MarkovChainObject(candidate, next_candidate))
+    for candidate, next_candidate in letter_counts.ranges.iteritems():
+        # print candidate, next_candidate
+        chain_list.append(MarkovChainObject(candidate, next_candidate))
     quasi_generator = GenerateQuasiRandomWord(chain_list)
 
     print(quasi_generator.word_given_seed_and_length(sys.argv[1].lower(), int(sys.argv[2])))
