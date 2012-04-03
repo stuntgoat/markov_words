@@ -11,12 +11,11 @@ class LetterCounts(object):
         self.pair_counter = collections.defaultdict(lambda:collections.defaultdict(int))
         self.pair_probabilities = collections.defaultdict(lambda:collections.defaultdict(float))
         self.ranges = collections.defaultdict(lambda:collections.defaultdict(tuple))
-
         self.count_consecutive_letters()
         self.generate_probabilities()
         self.generate_ranges()
 
-    def count_consecutive_letters(self):
+    def count_consecutive_letters(self): # called in __init__
         """ for each word, acquire the count of all consecutive letter pairs
         permutations and the lengths of all items within self.iterable"""
         for word in self.iterable:
@@ -26,9 +25,8 @@ class LetterCounts(object):
                 if letter not in (None, '\n', '\t' , ' '):
                     self.pair_counter[last_letter][letter] += 1
                     last_letter = letter 
-        return self.pair_counter
 
-    def generate_probabilities(self):
+    def generate_probabilities(self): # called in __init__
         """ for each lowercase letter, create a list of objects; the key is the 
         next letter and the value is a tuple of a range between 0 and 1 ( actually .9999999999999 )"""
         sums = {}
@@ -37,7 +35,7 @@ class LetterCounts(object):
             for key, value in v.iteritems():
                 self.pair_probabilities[k][key] = float(value)/sums[k]
 
-    def generate_ranges(self):
+    def generate_ranges(self): # called in __init__
         """Generate a dictionary of dictionaries containing tuples of incremental sums of probabilities 
         ( ie a Markov Chain )"""
         for key, probabilities, in self.pair_probabilities.iteritems():
