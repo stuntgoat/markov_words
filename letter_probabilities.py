@@ -6,8 +6,8 @@ import string
 class LetterCounts(object):
     """Generate probabilities of next characters, given an iterable of words"""
     def __init__(self, iterable):
-        self.iterable = iterable
-        self.lengths = collections.defaultdict(int)
+        self.iterable = iterable # an iterable of words
+        self.lengths = collections.defaultdict(int) 
         self.pair_counter = collections.defaultdict(lambda:collections.defaultdict(int))
         self.pair_probabilities = collections.defaultdict(lambda:collections.defaultdict(float))
         self.ranges = collections.defaultdict(lambda:collections.defaultdict(tuple))
@@ -30,7 +30,7 @@ class LetterCounts(object):
         """ for each lowercase letter, create a list of objects; the key is the 
         next letter and the value is a tuple of a range between 0 and 1 ( actually .9999999999999 )"""
         sums = {}
-        key_sums = [sums.update({k:sum(v.values())}) for k,v in self.pair_counter.iteritems()]
+        key_sums = [sums.update({k: sum(v.values())}) for k, v in self.pair_counter.iteritems()]
         for k, v in self.pair_counter.iteritems():
             for key, value in v.iteritems():
                 self.pair_probabilities[k][key] = float(value)/sums[k]

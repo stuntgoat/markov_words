@@ -12,7 +12,6 @@ class MarkovChainObject(object):
     example: self.current = 'a'
              self.chains = [{'b': (0, .03), 'c': (.03, .53), 'd': (.53, 1)}]
     """
-    
     def __init__(self, current, chain):
         self.current = current
         self.chain = chain
@@ -20,9 +19,7 @@ class MarkovChainObject(object):
     def quasi_random_next(self):
         qr = random.random()
         candidate = None
-
         for c in self.chain:
-
             lower = self.chain[c][0]
             upper = self.chain[c][1]
             if lower < qr < upper:
@@ -56,7 +53,7 @@ class GenerateQuasiRandomWord(object):
             last = current_letter
         return ''.join(letters)
 
-
+ 
 if __name__ == '__main__':
     import sys
     words = open("/usr/share/dict/words", 'rb')
