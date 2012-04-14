@@ -63,8 +63,8 @@ if __name__ == '__main__':
         # print candidate, next_candidate
         chain_list.append(MarkovChainObject(candidate, next_candidate))
     quasi_generator = GenerateQuasiRandomWord(chain_list)
-
     print(quasi_generator.word_given_seed_and_length(sys.argv[1].lower(), int(sys.argv[2])))
+    
 
     
 
